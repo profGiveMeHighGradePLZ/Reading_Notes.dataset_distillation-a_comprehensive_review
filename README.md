@@ -44,10 +44,17 @@ For the above method, outer optimization steps are computationally expensive, an
 a class of methods based on kernel ridge regression (KRR) tackle this problem, which performs convex optimization and results in a closed-form solution for the linear model which avoids extensive innerloop training.
 
 ## 2, Parameter Matching
+the key idea of parameter matching is to train the same network using synthetic datasets and original datasets for some steps, respectively, and encourage the consistency of their trained neural parameters. According to the number of training steps using S and T , parameter matching methods can be further divided into two streams: single-step parameter matching and multi-step parameter matching.
 
+### Single-Step Parameter Matching
 
+![image](https://github.com/user-attachments/assets/d05641c6-1c6d-463f-8f62-2dde1ebf8d46)
 
+In single-step parameter matching, a network is updated using S and T for only 1 step, respectively, and their resultant gradients with respective to θ are encouraged to be consistent, which is also known as gradient matching. After each step of updating synthetic data, the network used for computing gradients is trained on S for T steps.
 
+This approach is memory-efficient compared with meta-learning-based performance matching. This method has some limitations, e.g., the distance metric between two gradients considers each class independently and ignores relationships underlain for different classes. Thus, class-discriminative features are largely
+neglected.
 
+### Multi-Step Parameter Matching. 
 
 

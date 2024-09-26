@@ -14,6 +14,8 @@ A relatively straightforward method, known as core-set or instance selection, to
 
 Another line of work that focuses on generating new training data for compression has been proposed, known as dataset distillation (DD) or dataset condensation (DC). It aims at synthesizing original datasets into a limited number of samples such that they are learned or optimized to represent the knowledge of original datasets.
 
+One of the essential goals of dataset distillation is to synthesize informative datasets to improve training efficiency, given a limited storage budget. In other words, as for the same limited storage, more information on the original dataset is expected to be preserved so that the model trained on condensed datasets can achieve comparable and satisfactory performance.
+
 # General workflow of dataset distillation
 ![image](https://github.com/user-attachments/assets/835b65f8-2ca9-4a9b-ad28-13aeee5808b3)
 
@@ -68,4 +70,10 @@ and layers. It is demonstrated that this multi-step parameter matching strategy 
 
 ## 3, Distribution Matching
 
+The distribution matching approach aims to obtain synthetic data whose distribution can approximate that of real data. Instead of matching training effects, e.g., the performance of models trained on S, distribution matching directly optimizes the distance between the two distributions using some metrics, e.g., Maximum Mean Discrepancy (MMD)
+
 ![image](https://github.com/user-attachments/assets/1d974f90-ba31-464b-a68b-1f40c9a80ee1)
+
+Since directly estimating the real data distribution can be expensive and inaccurate as images are high-dimensional data, distribution matching adopts a set of embedding functions, i.e., neural networks, each providing a partial interpretation of the input and their combination providing a comprehensive interpretation, to approximate MMD.
+
+# Synthetic Data Parameterization

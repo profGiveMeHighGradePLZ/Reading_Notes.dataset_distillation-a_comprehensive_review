@@ -76,4 +76,45 @@ The distribution matching approach aims to obtain synthetic data whose distribut
 
 Since directly estimating the real data distribution can be expensive and inaccurate as images are high-dimensional data, distribution matching adopts a set of embedding functions, i.e., neural networks, each providing a partial interpretation of the input and their combination providing a comprehensive interpretation, to approximate MMD.
 
-# Synthetic Data Parameterization
+# EXPERIMENTS
+
+Two sets of quantitative experiments, i.e., performance and training cost evaluation are conducted on representative dataset distillation methods that cover three classes of primary condensation metrics, including DD, DC, DSA, DM, MTT, and FRePo.
+
+## Experimental Setup
+
+### Datasets
+
+Five datasets widely used as benchmarks in existing dataset distillation works, including MNIST, Fashion-MNIST, CIFAR-10, CIFAR-100, and Tiny-ImageNet, are adopted.
+
+### Networks
+
+1, using the default ConvNet architecture provided by the authors, which mainly consists of multiple Conv-ReLU-AvgPooling blocks. 
+
+2, evaluating the performance of synthetic datasets across different architectures: 
+
+- ConvNet with no normalization layer
+
+- AlexNet with no normalization layer and instance normalization layer
+
+- ResNet with instance normalization layer and batch normalization layer
+
+- VGG with instance normalization layer and batch normalization layer
+
+### Evaluation Protocol
+
+- For performance evaluation:
+
+1, first generating synthetic datasets through candidate methods and train target networks using these datasets. 
+
+2, evaluating the performance of trained models by the corresponding test set of the original dataset. 
+
+- For training cost evaluation:
+
+1, all methods are evaluated under full batch training for fair comparisons, and adopt the default data augmentation strategies the authors provided for distillation performance evaluation. 
+
+2, for generalization evaluation, the DSA data augmentation is adopted in the evaluation model training process for fair comparisons.
+
+3, we measure the distillation performance of condensed datasets with 1, 10, and 50 images per class (IPC) for different datasets. The cross-architecture experiments are conducted on CIFAR-10 with 10 IPC. Efficiency evaluation experiments are conducted on the CIFAR-10 dataset with a wide range of IPC.
+
+## Performance Evaluation
+

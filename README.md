@@ -118,3 +118,29 @@ Five datasets widely used as benchmarks in existing dataset distillation works, 
 
 ## Performance Evaluation
 
+### Distillation Performance
+
+- In most cases, FRePo achieves state-ofthe-art performance, especially for more complex datasets, e.g., CIFAR-10, CIFAR-100, and Tiny-ImageNet.
+- MTT often achieves second-best performance.
+- Comparing the performance results of DC and DSA, although dataset augmentation cannot guarantee to benefit the distillation performance, it influences the results significantly at most times.
+- As for DD, it obtains the SOTA performance in the case of MNIST 1 IPC, Fashion-MNIST 1 IPC, and 10 IPC.
+- The performance of DM is often not as good as other methods
+
+### Cross Architecture Generalization
+
+- the instance normalization layer seems to be a vital ingredient in several methods (DD, DC, DSA, DM, and MTT), which may be harmful to the transferability.
+- The performance degrades significantly for most methods except FRePo when no normalization is adopted (Conv-NN, AlexNet-NN).
+- If the normalization layer is inconsistent with the training architecture, the test results will drop significantly.
+- As for DD, the distilled data highly rely on the training model, and thus the performance degrades significantly on heterogeneous networks with different normalization layers, e.g., batch normalization.
+- Comparing the transferability of DC and DSA, we find that DSA data augmentation can help train models with different architectures, especially those with batch normalization layers.
+
+## Training Cost Evaluation
+
+### Run-Time Evaluation.
+
+- As for DD and MTT, the process of network updating is unrolled, and thus the required time for the entire outer loop and the loss function is the same.
+- as DM does not update the network, the required time for these two processes is the same.
+- DD requires a significantly longer run time to update the synthetic dataset for a single iteration, as the gradient computation for the performance matching loss over the synthetic dataset involves bi-level optimization.
+- DC, DSA, and FRePo implemented by PyTorch have similar required run times. Comparing DSA and DC, using DSA augmentation makes the running time slightly longer, but it can significantly improve the performance.
+- When the IPC is small, FRePo (both the JAX and PyTorch versions) is significantly faster than other methods, but as the IPC increases, the PyTorch version is similar to the second efficient echelon methods, while the JAX version is close to DM.
+- MTT runs the second slowest, but there is no more data to analyze due to out-of-memory.

@@ -144,3 +144,42 @@ Five datasets widely used as benchmarks in existing dataset distillation works, 
 - DC, DSA, and FRePo implemented by PyTorch have similar required run times. Comparing DSA and DC, using DSA augmentation makes the running time slightly longer, but it can significantly improve the performance.
 - When the IPC is small, FRePo (both the JAX and PyTorch versions) is significantly faster than other methods, but as the IPC increases, the PyTorch version is similar to the second efficient echelon methods, while the JAX version is close to DM.
 - MTT runs the second slowest, but there is no more data to analyze due to out-of-memory.
+
+### Peak GPU Memory Usage.
+
+- DM requires the lowest GPU memory, while MTT requires the most.
+- When IPC is only 50, the operation of MTT encounters out-of-memory
+- With the gradual growth of IPC, JAX version FRePo reveals the advantages of memory efficiency.
+- The DD and PyTorch versions of FRePo require relatively large GPU memory. The former needs to go through the entire training graph during backpropagation, while the latter adopts a wider network.
+- There is no significant difference in the GPU memory required by DC and DSA, indicating that DSA augmentation is memory-friendly
+
+### Conclusions from the above experiments:
+
+- The performance of DD has significantly improved thanks to the momentum item. However, DD has relatively poor generalizability, and the required runtime and GPU memory are considerable.
+- Compared with DC and DSA, adopting DSA can significantly improve the distillation performance and generalizability while not increasing the running time and memory requirement too much.
+- DM does not perform as well as other methods. However, DM has relatively good generalizability and significant advantages regarding run time and GPU memory requirements.
+- MTT has the overall second-best performance but requires much running time and space due to unrolled gradient computation through backpropagation.
+- FRePo achieves SOTA performance when IPC are small, regardless of performance or training cost. However, as IPC increases, FRePo does not have comparable performance.
+
+# CHALLENGES AND POSSIBLE IMPROVEMENTS
+
+## Computational Cost
+
+Generating the synthetic dataset is typically expensive and that the required time will rapidly increase when distilling large-scale datasets. This high computational cost is mainly caused by backpropagating through unrolled computational graphs for updating synthetic datasets.
+
+## Scaling Up
+
+### Larger Compression Ratios
+
+### Larger Original Datasets
+
+### Larger Networks
+
+## Generalization across Different Architectures
+
+## Design for Other Tasks and Applications
+
+## Security and Privacy
+
+
+

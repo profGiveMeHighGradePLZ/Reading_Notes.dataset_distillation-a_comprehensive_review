@@ -12,29 +12,61 @@ Dataset distillation (DD), also known as dataset condensation (DC), was introduc
 
 Dataset distillation (DD) or dataset condensation (DC) focuses on generating new training data for compression. It aims at synthesizing original datasets into a limited number of samples such that they are learned or optimized to represent the knowledge of original datasets.One of the essential goals of dataset distillation is to synthesize informative datasets to improve training efficiency, given a limited storage budget. In other words, as for the same limited storage, more information on the original dataset is expected to be preserved so that the model trained on condensed datasets can achieve comparable and satisfactory performance.
 
-# Definition of Dataset Distillation
+# Definition of Dataset Distillation 
+
+The canonical dataset distillation problem involves learning a small set of synthetic data from an original large-scale dataset so that models trained on the synthetic dataset can perform comparably to those trained on the original. Formally, we formulate the problem as the following:
+
+$$
+S = \arg \min_S L(S, T)
+$$
 
 
+- $$T = (X_t, Y_t)$$ denoting a real dataset consisting of $|T|$ pairs of training images and
+corresponding labels
+  - $X_t \in \mathbb{R}^{N \times d}$, $N$ is the number of real samples, $d$ is the number of features
+  - $Y_t \in \mathbb{R}^{N \times C}$, and $C$ is the number of output
+entries
+- $$S = (X_s, Y_s)$$ denoting the synthetic dataset
+  - $$X_s \in \mathbb{R}^{M \times D}$$, $M$ is the number of synthetic samples
+  - $$Y_s \in \mathbb{R}^{M \times C}$$, $$M \ll N$$,  and $D$ is the number of features
+for each sample.
+-  For the typical image classification tasks, $D$ is $height × width × channels$, and $y$ is a one-hot vector
+whose dimension $C$ is the number of classes.
+
+where $$L$$ is some objective for dataset distillation, which will be elaborated in the following contents.
 
 # General workflow of dataset distillation
 ![image](https://github.com/user-attachments/assets/835b65f8-2ca9-4a9b-ad28-13aeee5808b3)
 
 
-Two key steps in current DD methods are to train neural networks and compute L via these networks. They perform alternately in an iterative loop to optimize synthetic datasets S, which formulates a general workflow for DD.
+Two key steps in current DD methods are to train neural networks and compute $L$ via these networks. They perform alternately in an iterative loop to optimize synthetic datasets $S$, which formulates a general workflow for DD.
 
-Firstly, S is initialized before the optimization loop, which may have crucial impacts on the convergence and final performance of condensation methods. Typically, the synthetic dataset S is usually initialized in two ways: randomly initialization e.g., from Gaussian noise, and randomly selected real samples from the original dataset T. Moreover, some coreset methods, e.g., K-Center, can also be applied to initialize the synthetic dataset.
+Firstly, $S$ is initialized before the optimization loop, which may have crucial impacts on the convergence and final performance of condensation methods. Typically, the synthetic dataset $S$ is usually initialized in two ways: randomly initialization e.g., from Gaussian noise, and randomly selected real samples from the original dataset $T$. Moreover, some coreset methods, e.g., K-Center, can also be applied to initialize the synthetic dataset.
 
-To avoid overfitting problems and make the output synthetic dataset more generalizable, the network θ will be periodically fetched at the beginning of the loop. The networks can be randomly initialized or loaded from some cached checkpoints.
+To avoid overfitting problems and make the output synthetic dataset more generalizable, the network $θ$ will be periodically fetched at the beginning of the loop. The networks can be randomly initialized or loaded from some cached checkpoints. 
 
-The fetched network is updated via Sor T for some steps if needed. Then, the synthetic dataset is updated through some dataset distillation objective L based on the network
+The fetched network is updated via $S$ or $T$ for some steps if needed. Then, the synthetic dataset is updated through some dataset distillation objective $L$ based on the network
 
 #  Optimization Objectives in DD
+
+Different works in DD propose different optimization objectives, denoted as $L$, to obtain synthetic datasets that are valid to replace original ones in downstream training.
 
 ## 1, Performance Matching
 
 ### Meta-Learning Based Methods. 
 
-This approach aims to optimize a synthetic dataset such that neural networks trained on it could have the lowest loss on the original dataset, and thus the performance of models trained by synthetic and real datasets is matched.
+This approach aims to optimize a synthetic dataset such that neural networks trained on it could have the lowest loss on the original dataset, and thus the performance of models trained by synthetic and real datasets is matched:
+
+
+$$
+L(S, T) = \mathbb{E}_{\theta^{(0)} \sim \Theta} [l(T; \theta^{(T)})],
+$$
+
+$$
+\theta^{(t)} = \theta^{(t-1)} - \eta \nabla l(S; \theta^{(t-1)})
+$$
+
+
 
 ![image](https://github.com/user-attachments/assets/f530476c-5583-4958-9a13-6a4a6fc07a85)
 

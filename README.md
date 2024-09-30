@@ -10,16 +10,17 @@ Dataset distillation (DD), also known as dataset condensation (DC), was introduc
 
 ![image](https://github.com/user-attachments/assets/7683316a-25f4-477d-a551-1065ac443f3c)
 
-A relatively straightforward method, known as core-set or instance selection, to obtain smaller datasets is to select the most representative or valuable samples from original datasets so that models trained on these subsets can perform as well as the original ones.
+Dataset distillation (DD) or dataset condensation (DC) focuses on generating new training data for compression. It aims at synthesizing original datasets into a limited number of samples such that they are learned or optimized to represent the knowledge of original datasets.One of the essential goals of dataset distillation is to synthesize informative datasets to improve training efficiency, given a limited storage budget. In other words, as for the same limited storage, more information on the original dataset is expected to be preserved so that the model trained on condensed datasets can achieve comparable and satisfactory performance.
 
-Another line of work that focuses on generating new training data for compression has been proposed, known as dataset distillation (DD) or dataset condensation (DC). It aims at synthesizing original datasets into a limited number of samples such that they are learned or optimized to represent the knowledge of original datasets.
+# Definition of Dataset Distillation
 
-One of the essential goals of dataset distillation is to synthesize informative datasets to improve training efficiency, given a limited storage budget. In other words, as for the same limited storage, more information on the original dataset is expected to be preserved so that the model trained on condensed datasets can achieve comparable and satisfactory performance.
+
 
 # General workflow of dataset distillation
 ![image](https://github.com/user-attachments/assets/835b65f8-2ca9-4a9b-ad28-13aeee5808b3)
 
-Two key steps in current DD methods are to train neural networks and compute L via these networks. They perform alternately in an iterative loop to optimize synthetic datasets S, which formulates a general workflow for DD as shown in Alg. 1
+
+Two key steps in current DD methods are to train neural networks and compute L via these networks. They perform alternately in an iterative loop to optimize synthetic datasets S, which formulates a general workflow for DD.
 
 Firstly, S is initialized before the optimization loop, which may have crucial impacts on the convergence and final performance of condensation methods. Typically, the synthetic dataset S is usually initialized in two ways: randomly initialization e.g., from Gaussian noise, and randomly selected real samples from the original dataset T. Moreover, some coreset methods, e.g., K-Center, can also be applied to initialize the synthetic dataset.
 

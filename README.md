@@ -96,7 +96,7 @@ a class of methods based on kernel ridge regression (KRR) tackle this problem, w
 
 Projecting samples into a high-dimensional feature space with a non-linear neural network $f$ parameterized by $θ$, where $θ$ is sampled from some distribution $Θ$, the performance matching metric can be represented as:
 
-(Unfinished)
+![text image](https://github.com/profGiveMeHighGradePLZ/Reading_Notes.dataset_distillation-a_comprehensive_review/blob/main/img/KRR.png)
 
 ## 2, Parameter Matching
 the key idea of parameter matching is to train the same network using synthetic datasets and original datasets for some steps, respectively, and encourage the consistency of their trained neural parameters. According to the number of training steps using $S$ and $T$, parameter matching methods can be further divided into two streams: single-step parameter matching and multi-step parameter matching.
@@ -105,9 +105,15 @@ the key idea of parameter matching is to train the same network using synthetic 
 
 ![image](https://github.com/user-attachments/assets/d05641c6-1c6d-463f-8f62-2dde1ebf8d46)
 
-In single-step parameter matching, a network is updated using $S$ and $T$ for only 1 step, respectively, and their resultant gradients respective to $θ$ are encouraged to be consistent, which is also known as gradient matching. After each step of updating synthetic data, the network used for computing gradients is trained on $S$ for $T$ steps.In this case, the objective function can be formalized as follows
+In single-step parameter matching, a network is updated using $S$ and $T$ for only 1 step, respectively, and their resultant gradients respective to $θ$ are encouraged to be consistent, which is also known as gradient matching. After each step of updating synthetic data, the network used for computing gradients is trained on $S$ for $T$ steps.In this case, the objective function can be formalized as follows:
 
-(unfinished)
+![image text](https://github.com/profGiveMeHighGradePLZ/Reading_Notes.dataset_distillation-a_comprehensive_review/blob/main/img/single%20step%20pm.png)
+
+- metric $D$ measures the distance between gradients
+$\nabla l(S; \theta^{(t)})$
+and
+$\nabla l(T; \theta^{(t)})$
+
 
 This approach is memory-efficient compared with meta-learning-based performance matching. This method has some limitations, e.g., the distance metric between two gradients considers each class independently and ignores relationships underlain for different classes. Thus, class-discriminative features are largely neglected. Besides, since only a single-step gradient is matched, errors may be accumulated in evaluation where models are updated by synthetic data for multiple steps.
 

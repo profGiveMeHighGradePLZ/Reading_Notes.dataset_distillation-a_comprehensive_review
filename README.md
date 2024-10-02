@@ -8,7 +8,7 @@ Yu, Ruonan, et al. “Dataset Distillation: A Comprehensive Review.” IEEE Tran
 
 Dataset distillation (DD), also known as dataset condensation (DC), was introduced and has recently attracted much research attention in the community. Given an original dataset, DD aims to derive a much smaller dataset containing synthetic samples, based on which the trained models yield performance comparable with those trained on the original dataset.
 
-![image](https://github.com/user-attachments/assets/7683316a-25f4-477d-a551-1065ac443f3c)
+![image text](https://github.com/profGiveMeHighGradePLZ/Reading_Notes.dataset_distillation-a_comprehensive_review/blob/main/img/1.png)
 
 Dataset distillation (DD) or dataset condensation (DC) focuses on generating new training data for compression. It aims at synthesizing original datasets into a limited number of samples such that they are learned or optimized to represent the knowledge of original datasets.One of the essential goals of dataset distillation is to synthesize informative datasets to improve training efficiency, given a limited storage budget. In other words, as for the same limited storage, more information on the original dataset is expected to be preserved so that the model trained on condensed datasets can achieve comparable and satisfactory performance.
 
@@ -71,7 +71,7 @@ $$
 - $T$ denotes the number of inner iterations
 - $η$ is the learning rate for the inner loop
 
-![image](https://github.com/user-attachments/assets/f530476c-5583-4958-9a13-6a4a6fc07a85)
+![image test](https://github.com/profGiveMeHighGradePLZ/Reading_Notes.dataset_distillation-a_comprehensive_review/blob/main/img/PM.png)
 
 The objective of performance matching indicates a bilevel optimization algorithm: 
 - In inner loops, weights of a differentiable model with parameter $θ$ are updated with $S$ via gradient decent, and the recursive computation graph is cached.

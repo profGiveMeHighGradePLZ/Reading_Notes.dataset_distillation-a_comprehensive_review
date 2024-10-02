@@ -66,11 +66,27 @@ $$
 \theta^{(t)} = \theta^{(t-1)} - \eta \nabla l(S; \theta^{(t-1)})
 $$
 
-
+- $Θ$ is the distribution for the initialization of network parameters
+- $l$ is the loss function to train networks, e.g., cross-entropy loss for classification
+- $T$ denotes the number of inner iterations
+- $η$ is the learning rate for the inner loop
 
 ![image](https://github.com/user-attachments/assets/f530476c-5583-4958-9a13-6a4a6fc07a85)
 
-The objective of performance matching indicates a bilevel optimization algorithm: in inner loops, weights of a differentiable model with parameter θ are updated with S via gradient decent, and the recursive computation graph is cached; in outer loops, models trained after inner loops are validated on T and the validation loss is backpropagated through the unrolled computation graph to S.
+The objective of performance matching indicates a bilevel optimization algorithm: 
+- In inner loops, weights of a differentiable model with parameter $θ$ are updated with $S$ via gradient decent, and the recursive computation graph is cached.
+- In outer loops, models trained after inner loops are validated on $T$ and the validation loss is backpropagated through the unrolled computation graph to $S$. DD methods based on such an objective are similar to bi-level meta-learning and gradient-based hyperparameter optimization techniques.
+
+It is found that equipping the update of parameter θ for the inner loop with momentum m can improve performance significantly. This alternative update function can be written as:
+
+$$m^{(0)} = 0,$$
+
+$$m^{(t)} = \beta m^{(t-1)} + \nabla l(S; \theta^{(t-1)}),$$
+
+
+$$\theta^{(t)} = \theta^{(t-1)} - \eta m^{(t)}$$
+
+- $β$ is a hyperparameter indicating the momentum rate
 
  ### Kernel Ridge Regression Based Methods.
 
@@ -78,14 +94,20 @@ For the above method, outer optimization steps are computationally expensive, an
 
 a class of methods based on kernel ridge regression (KRR) tackle this problem, which performs convex optimization and results in a closed-form solution for the linear model which avoids extensive inner loop training.
 
+Projecting samples into a high-dimensional feature space with a non-linear neural network $f$ parameterized by $θ$, where $θ$ is sampled from some distribution $Θ$, the performance matching metric can be represented as:
+
+(Unfinished)
+
 ## 2, Parameter Matching
-the key idea of parameter matching is to train the same network using synthetic datasets and original datasets for some steps, respectively, and encourage the consistency of their trained neural parameters. According to the number of training steps using S and T, parameter matching methods can be further divided into two streams: single-step parameter matching and multi-step parameter matching.
+the key idea of parameter matching is to train the same network using synthetic datasets and original datasets for some steps, respectively, and encourage the consistency of their trained neural parameters. According to the number of training steps using $S$ and $T$, parameter matching methods can be further divided into two streams: single-step parameter matching and multi-step parameter matching.
 
 ### Single-Step Parameter Matching
 
 ![image](https://github.com/user-attachments/assets/d05641c6-1c6d-463f-8f62-2dde1ebf8d46)
 
-In single-step parameter matching, a network is updated using S and T for only 1 step, respectively, and their resultant gradients respective to θ are encouraged to be consistent, which is also known as gradient matching. After each step of updating synthetic data, the network used for computing gradients is trained on S for T steps.
+In single-step parameter matching, a network is updated using $S$ and $T$ for only 1 step, respectively, and their resultant gradients respective to $θ$ are encouraged to be consistent, which is also known as gradient matching. After each step of updating synthetic data, the network used for computing gradients is trained on $S$ for $T$ steps.In this case, the objective function can be formalized as follows:
+
+(unfinished)
 
 This approach is memory-efficient compared with meta-learning-based performance matching. This method has some limitations, e.g., the distance metric between two gradients considers each class independently and ignores relationships underlain for different classes. Thus, class-discriminative features are largely neglected. Besides, since only a single-step gradient is matched, errors may be accumulated in evaluation where models are updated by synthetic data for multiple steps.
 

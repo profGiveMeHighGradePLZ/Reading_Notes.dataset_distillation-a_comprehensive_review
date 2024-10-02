@@ -105,7 +105,7 @@ the key idea of parameter matching is to train the same network using synthetic 
 
 ![image](https://github.com/user-attachments/assets/d05641c6-1c6d-463f-8f62-2dde1ebf8d46)
 
-In single-step parameter matching, a network is updated using $S$ and $T$ for only 1 step, respectively, and their resultant gradients respective to $θ$ are encouraged to be consistent, which is also known as gradient matching. After each step of updating synthetic data, the network used for computing gradients is trained on $S$ for $T$ steps.In this case, the objective function can be formalized as follows:
+In single-step parameter matching, a network is updated using $S$ and $T$ for only 1 step, respectively, and their resultant gradients respective to $θ$ are encouraged to be consistent, which is also known as gradient matching. After each step of updating synthetic data, the network used for computing gradients is trained on $S$ for $T$ steps.In this case, the objective function can be formalized as follows
 
 (unfinished)
 

@@ -98,6 +98,15 @@ Projecting samples into a high-dimensional feature space with a non-linear neura
 
 ![text image](https://github.com/profGiveMeHighGradePLZ/Reading_Notes.dataset_distillation-a_comprehensive_review/blob/main/img/KRR.png)
 
+- $λ$ is a small number for regularization
+
+Rewriting the equation in kernel version, we have:
+
+![text image](https://github.com/profGiveMeHighGradePLZ/Reading_Notes.dataset_distillation-a_comprehensive_review/blob/main/img/krr2.png)
+
+- $K_{\theta} X_1 X_2 = f_{\theta}(X_1) f_{\theta}(X_2)^T$
+
+
 ## 2, Parameter Matching
 the key idea of parameter matching is to train the same network using synthetic datasets and original datasets for some steps, respectively, and encourage the consistency of their trained neural parameters. According to the number of training steps using $S$ and $T$, parameter matching methods can be further divided into two streams: single-step parameter matching and multi-step parameter matching.
 
@@ -115,19 +124,40 @@ and
 $\nabla l(T; \theta^{(t)})$
 
 
-This approach is memory-efficient compared with meta-learning-based performance matching. This method has some limitations, e.g., the distance metric between two gradients considers each class independently and ignores relationships underlain for different classes. Thus, class-discriminative features are largely neglected. Besides, since only a single-step gradient is matched, errors may be accumulated in evaluation where models are updated by synthetic data for multiple steps.
+Since only a single-step gradient is necessary, and updates of synthetic data and networks are decomposed, this approach is memory-efficient compared with meta-learning-based performance matching. 
+
+Formulations of the distance between two groups of gradients are as follows
+
+![text image](https://github.com/profGiveMeHighGradePLZ/Reading_Notes.dataset_distillation-a_comprehensive_review/blob/main/img/spm1.png)
+
+![text image](https://github.com/profGiveMeHighGradePLZ/Reading_Notes.dataset_distillation-a_comprehensive_review/blob/main/img/spm2.png)
+
+- $C$ is the total number of classes
+- $L$ is the number of layers in neural networks
+- $j$ is the channel index.
+- hyperparameter $λ$
 
 ### Multi-Step Parameter Matching. 
 
 ![image](https://github.com/user-attachments/assets/d079378e-49da-4678-b1c9-9d53e060bb4c)
 
-multi-step parameter matching approach, known as matching training trajectory (MTT), is proposed to remedy the accumulative error during evaluation in the Single-Step Parameter Matching. In this method, θ will be initialized and sampled from checkpoints of training trajectories on original datasets.
+For single-step parameter matching, since only single-step gradient is matched, errors may be accumulated in evaluation where models are updated by synthetic data for multiple steps. To solve this problem, a multi-step parameter matching approach known as matching training trajectory (MTT) is proposed.
 
-starting from θ(0), the algorithm trains the model on synthetic datasets for Ts steps and the original dataset for Tt steps, respectively, where
-Ts and Tt are hyperparameters, and tries to minimize the distance of the endings of these two trajectories, i.e., θ(Ts)S and θ(Tt)T
+In this method, $θ$ will be initialized and sampled from checkpoints of training trajectories on original datasets.
 
-Note that the total loss is normalized by the distance between the starting point θ(0) and the expert endpoint θ(Tt)T. This normalization helps get a strong signal where the expert does not move as much at later training epochs and self-calibrates the magnitude difference across neurons
-and layers. It is demonstrated that this multi-step parameter matching strategy yields better performance than the single-step counterpart.
+Starting from  $\theta^{(0)}$ , the algorithm trains the model on synthetic datasets for $Ts$ steps and the original dataset for $T_t$ steps, respectively, where $T_s$ and $T_t$ are hyperparameters, and tries to minimize the distance of the endings of these two trajectories, i.e., $\theta_{S} (T_s)$
+ and $\theta_{T} (T_t)$
+
+![text image](https://github.com/profGiveMeHighGradePLZ/Reading_Notes.dataset_distillation-a_comprehensive_review/blob/main/img/mmp1.png)
+
+- $Θ$ is the distribution for cached teacher trajectories
+- $l$ is the loss function for training networks, 
+
+D is defined as follows:
+
+![text image](https://github.com/profGiveMeHighGradePLZ/Reading_Notes.dataset_distillation-a_comprehensive_review/blob/main/img/mpp2.png)
+
+Note that the total loss is normalized by the distance between the starting point $θ(0)$ and the expert endpoint $\theta_{T} (T_t)$. This normalization helps get a strong signal where the expert does not move as much at later training epochs and self-calibrates the magnitude difference across neurons and layers. It is demonstrated that this multi-step parameter matching strategy yields better performance than the single-step counterpart.
 
 ## 3, Distribution Matching
 

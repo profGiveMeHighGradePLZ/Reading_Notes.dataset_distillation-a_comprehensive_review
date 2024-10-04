@@ -161,11 +161,30 @@ Note that the total loss is normalized by the distance between the starting poin
 
 ## 3, Distribution Matching
 
-The distribution matching approach aims to obtain synthetic data whose distribution can approximate that of real data. Instead of matching training effects, e.g., the performance of models trained on S, distribution matching directly optimizes the distance between the two distributions using some metrics, e.g., Maximum Mean Discrepancy (MMD)
+The distribution matching approach aims to obtain synthetic data whose distribution can approximate that of real data. Instead of matching training effects, e.g., the performance of models trained on $S$, distribution matching directly optimizes the distance between the two distributions using some metrics, e.g., Maximum Mean Discrepancy (MMD)
 
 ![image](https://github.com/user-attachments/assets/1d974f90-ba31-464b-a68b-1f40c9a80ee1)
 
-Since directly estimating the real data distribution can be expensive and inaccurate as images are high-dimensional data, distribution matching adopts a set of embedding functions, i.e., neural networks, each providing a partial interpretation of the input and their combination providing a comprehensive interpretation, to approximate MMD.
+Since directly estimating the real data distribution can be expensive and inaccurate as images are high-dimensional data, distribution matching adopts a set of embedding functions, i.e., neural networks, each providing a partial interpretation of the input and their combination providing a comprehensive interpretation, to approximate MMD. Here, we denote the parametric function as $$f(\theta)$$
+, and distribution matching is defined as:
+
+$$L(S, T) = \mathbb{E}_{\theta \in \Theta}[D(S, T; \theta)]$$
+
+- $Θ$ is a specific distribution for random neural network initialization,
+- $$X_{s,c} \quad \text{and} \quad X_{t,c}$$ denote samples from the $c-th$ class in synthetic and real datasets respectively,
+- and $D$ is some metric measuring the distance between two distributions.
+
+Classifier networks without the last linear layer as embedding functions. The center, i.e., mean vector, of the output embeddings for each
+class of synthetic and real datasets are encouraged to be close.Formally, D is defined as:
+
+$$D(S, T; \theta) = \sum_{c=0}^{C-1} \| \mu_{\theta,s,c} - \mu_{\theta,t,c} \|^2$$
+
+$$
+\mu_{\theta,s,c} = \frac{1}{M_c} \sum_{j=1}^{M_c} f_{\theta}^{(i)}(X_{s,c}^{(j)}), \quad \mu_{\theta,t,c} = \frac{1}{N_c} \sum_{j=1}^{N_c} f_{\theta}^{(i)}(X_{t,c}^{(j)})
+$$
+
+- $M_c$ and $N_c$ are the number of samples for the $c-th$ class in synthetic and real datasets respectively,
+- $j$ is the sample index.
 
 # EXPERIMENTS
 
